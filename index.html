@@ -936,8 +936,21 @@
             const statusGrid = document.getElementById('status-grid');
             
             try {
-                // Try to determine repository from current URL or use default
-                const repoPath = currentOwner && currentRepo ? `${currentOwner}/${currentRepo}` : 'example/loop';
+                // Extract repository info from current GitHub Pages URL
+                const hostname = window.location.hostname;
+                let repoPath;
+                
+                if (hostname.endsWith('.github.io')) {
+                    const owner = hostname.replace('.github.io', '');
+                    const repo = window.location.pathname.split('/')[1] || owner; // repo name from path, fallback to owner
+                    repoPath = `${owner}/${repo}`;
+                    currentOwner = owner;
+                    currentRepo = repo;
+                } else {
+                    // Fallback for local development or other hosting
+                    repoPath = currentOwner && currentRepo ? `${currentOwner}/${currentRepo}` : 'example/loop';
+                }
+                
                 document.getElementById('repoInput').value = repoPath;
                 
                 await fetchRepositoryData(repoPath);
