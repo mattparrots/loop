@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loop Lab</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Loop Lab">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE4MCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIiByeD0iNDAiIGZpbGw9InVybCgjZ3JhZGllbnQwKSIvPgo8ZGVmcz4KPGF4aWFsR3JhZGllbnQgaWQ9ImdyYWRpZW50MCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM2MzY2ZjEiLz4KPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjOGI1Y2Y2Ii8+CjwvYXhpYWxHcmFkaWVudD4KPC9kZWZzPgo8Y2lyY2xlIGN4PSI5MCIgY3k9IjkwIiByPSIzNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI0Ii8+CjxjaXJjbGUgY3g9IjkwIiBjeT0iNjAiIHI9IjgiIGZpbGw9IndoaXRlIi8+CjxjaXJjbGUgY3g9IjExNSIgY3k9IjkwIiByPSI4IiBmaWxsPSJ3aGl0ZSIvPgo8Y2lyY2xlIGN4PSI5MCIgY3k9IjEyMCIgcj0iOCIgZmlsbD0id2hpdGUiLz4KPGF4aXNHcmFkaWVudCBpZD0iZ3JhZGllbnQwIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzYzNjZmMSIvPgo8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM4YjVjZjYiLz4KPC9heGlhbEdyYWRpZW50Pgo8L3N2Zz4K">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e1e2e 0%, #2d1b69 100%);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: linear-gradient(45deg, #6366f1, #8b5cf6);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: float 3s ease-in-out infinite;
+            position: relative;
+        }
+
+        .logo::after {
+            content: "🔬";
+            font-size: 40px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #fff, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+
+        .file-explorer {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .explorer-header {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .control {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .control.close { background: #ff5f57; }
+        .control.minimize { background: #ffbd2e; }
+        .control.maximize { background: #28ca42; }
+
+        .explorer-title {
+            margin-left: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px 20px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tree-view {
+            padding: 20px;
+        }
+
+        .folder, .file {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid transparent;
+        }
+
+        .folder:hover, .file:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .folder.expanded {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .folder-content {
+            margin-left: 20px;
+            padding-left: 20px;
+            border-left: 2px solid rgba(255, 255, 255, 0.1);
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .folder-content.expanded {
+            max-height: 1000px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: 500;
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+
+        .file-description {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .file-meta {
+            text-align: right;
+            font-size: 0.75rem;
+            opacity: 0.5;
+            margin-left: 15px;
+        }
+
+        .launch-btn {
+            background: linear-gradient(45deg, #6366f1, #8b5cf6);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-left: 10px;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .folder:hover .launch-btn, .file:hover .launch-btn {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .launch-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .stats-bar {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .coming-soon {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            color: rgba(255, 193, 7, 0.9);
+        }
+
+        .coming-soon:hover {
+            background: rgba(255, 193, 7, 0.15);
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .folder, .file {
+                padding: 10px;
+            }
+            
+            .file-meta {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo"></div>
+            <h1>Loop Lab</h1>
+            <p class="subtitle">Where apps build themselves and teach you how</p>
+        </div>
+
+        <div class="file-explorer">
+            <div class="explorer-header">
+                <div class="window-controls">
+                    <div class="control close"></div>
+                    <div class="control minimize"></div>
+                    <div class="control maximize"></div>
+                </div>
+                <div class="explorer-title">Loop Lab Explorer</div>
+            </div>
+
+            <div class="breadcrumb">
+                📁 /home/lab/experiments/
+            </div>
+
+            <div class="tree-view">
+                <div class="folder" onclick="toggleFolder('self-building')">
+                    <div class="icon">🔧</div>
+                    <div class="file-info">
+                        <div class="file-name">Self-Building Apps</div>
+                        <div class="file-description">Apps that demonstrate their own creation process</div>
+                    </div>
+                    <div class="file-meta">3 items</div>
+                    <button class="launch-btn" onclick="event.stopPropagation(); openFolder('self-building')">Open</button>
+                </div>
+                <div class="folder-content" id="self-building">
+                    <div class="file" onclick="launchApp('meta-builder')">
+                        <div class="icon">⚡</div>
+                        <div class="file-info">
+                            <div class="file-name">Meta Builder</div>
+                            <div class="file-description">The app that teaches you how it was built</div>
+                        </div>
+                        <div class="file-meta">HTML • 15KB</div>
+                        <button class="launch-btn" onclick="event.stopPropagation(); launchApp('meta-builder')">Launch</button>
+                    </div>
+                    <div class="file coming-soon">
+                        <div class="icon">🎯</div>
+                        <div class="file-info">
+                            <div class="file-name">Code Generator</div>
+                            <div class="file-description">Generates its own next iteration</div>
+                        </div>
+                        <div class="file-meta">Coming Soon</div>
+                    </div>
+                    <div class="file coming-soon">
+                        <div class="icon">🔄</div>
+                        <div class="file-info">
+                            <div class="file-name">Evolution Tracker</div>
+                            <div class="file-description">Tracks how apps evolve over iterations</div>
+                        </div>
+                        <div class="file-meta">Coming Soon</div>
+                    </div>
+                </div>
+
+                <div class="folder" onclick="toggleFolder('tools')">
+                    <div class="icon">🛠️</div>
+                    <div class="file-info">
+                        <div class="file-name">Development Tools</div>
+                        <div class="file-description">Visual builders and deployment helpers</div>
+                    </div>
+                    <div class="file-meta">4 items</div>
+                    <button class="launch-btn" onclick="event.stopPropagation(); openFolder('tools')">Open</button>
+                </div>
+                <div class="folder-content" id="tools">
+                    <div class="file coming-soon">
+                        <div class="icon">🎨</div>
+                        <div class="file-info">
+                            <div class="file-name">Visual App Builder</div>
+                            <div class="file-description">Drag & drop interface for creating apps</div>
+                        </div>
+                        <div class="file-meta">Coming Soon</div>
+                    </div>
+                    <div class="file coming-soon">
+                        <div class="icon">🚀</div>
+                        <div class="file-info">
+                            <div class="file-name">One-Click Deploy</div>
+                            <div class="file-description">Instant deployment to multiple platforms</div>
+                        </div>
+                        <div class="file-meta">Coming Soon</div>
+                    </div>
+                    <div class="file coming-soon">
+                        <div class="icon">📱</div>
+                        <div class="file-info">
+                            <div class="file-name">App Store Publisher</div>
+                            <div class="file-description">Automated app store submission</div>
+                        </div>
+                        <div class="file-meta">Coming Soon</div>
+                    </div>
+                    <div class="file coming-soon">
+                        <div class="icon">🔍</div>
+                        <div class="file-info">
+                            <div class="file-name">Code Inspector</div>
+                            <div class="file-description">Real-time code analysis and suggestions</div>
+                        </div>
+                        <div class="file-meta">Coming Soon</div>
+                    </div>
+                </div>
+
+                <div class="folder" onclick="toggleFolder('examples')">
+                    <div class="icon">📚</div>
+                    <div class="file-info">
+                        <div class="file-name">Example Projects</div>
+                        <div class="file-description">Ready-to-use app templates and demos</div>
+                    </div>
+                    <div class="file-meta">6 items</div>
+                    <button class="launch-btn" onclick="event.stopPropagation(); openFolder('examples')">Open</button>
+                </div>
+                <div class="folder-content" id="examples">
+                    <div class="file coming-soon">
+                        <div class="icon">🎮</div>
+                        <div class="file-info">
+                            <div class="file-name">Puzzle Game Template</div>
+                            <div class="file-description">Simple game that explains its mechanics</div>
+                        </div>
+                        <div class="file-meta">Coming Soon</div>
+                    </div>
+                    <div class="file coming-soon">
+                        <div class="icon">📝</div>
+                        <div class="file-info">
+                            <div class="file-name">Note-Taking App</div>
+                            <div class="file-description">Self-documenting productivity tool</div>
+                        </div>
+                        <div class="file-meta">Coming Soon</div>
+                    </div>
+                    <div class="file coming-soon">
+                        <div class="icon">🎵</div>
+                        <div class="file-info">
+                            <div class="file-name">Music Player</div>
+                            <div class="file-description">Audio app with source code tutorial</div>
+                        </div>
+                        <div class="file-meta">Coming Soon</div>
+                    </div>
+                    <div class="file coming-soon">
+                        <div class="icon">📊</div>
+                        <div class="file-info">
+                            <div class="file-name">Analytics Dashboard</div>
+                            <div class="file-description">Data viz with self-building charts</div>
+                        </div>
+                        <div class="file-meta">Coming Soon</div>
+                    </div>
+                    <div class="file coming-soon">
+                        <div class="icon">🛒</div>
+                        <div class="file-info">
+                            <div class="file-name">E-commerce Store</div>
+                            <div class="file-description">Shopping app that explains its architecture</div>
+                        </div>
+                        <div class="file-meta">Coming Soon</div>
+                    </div>
+                    <div class="file coming-soon">
+                        <div class="icon">💬</div>
+                        <div class="file-info">
+                            <div class="file-name">Chat Application</div>
+                            <div class="file-description">Real-time messaging with code walkthrough</div>
+                        </div>
+                        <div class="file-meta">Coming Soon</div>
+                    </div>
+                </div>
+
+                <div class="file" onclick="openDocumentation()">
+                    <div class="icon">📖</div>
+                    <div class="file-info">
+                        <div class="file-name">README.md</div>
+                        <div class="file-description">Learn about the Loop Lab philosophy and getting started</div>
+                    </div>
+                    <div class="file-meta">Markdown • 8KB</div>
+                    <button class="launch-btn" onclick="event.stopPropagation(); openDocumentation()">Read</button>
+                </div>
+            </div>
+
+            <div class="stats-bar">
+                <div>1 active project • 13 planned experiments</div>
+                <div>Last updated: Now</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for the Meta Builder App -->
+    <div class="modal" id="appModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Meta Builder</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modalBody">
+                <!-- Meta Builder app content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleFolder(folderId) {
+            const folder = document.getElementById(folderId);
+            const folderElement = folder.previousElementSibling;
+            
+            folder.classList.toggle('expanded');
+            folderElement.classList.toggle('expanded');
+        }
+
+        function openFolder(folderId) {
+            toggleFolder(folderId);
+        }
+
+        function launchApp(appId) {
+            if (appId === 'meta-builder') {
+                loadMetaBuilder();
+            }
+        }
+
+        function loadMetaBuilder() {
+            const modal = document.getElementById('appModal');
+            const modalBody = document.getElementById('modalBody');
+            
+            // Load the Meta Builder app content
+            modalBody.innerHTML = `
+                <div style="padding: 20px;">
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <div style="width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(45deg, #6366f1, #8b5cf6); border-radius: 20px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); animation: pulse 2s infinite;">
+                            <span style="font-size: 40px;">⚡</span>
+                        </div>
+                        <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; background: linear-gradient(45deg, #fff, #f0f9ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Meta Builder</h1>
+                        <p style="font-size: 1.1rem; opacity: 0.9; font-weight: 300;">The app that builds itself and shows you how</p>
+                    </div>
+
+                    <div style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 20px; margin: 20px 0; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.2); padding: 20px;">
+                        <h3 style="margin-bottom: 15px;">🎯 The Self-Building Loop</h3>
+                        <p style="margin-bottom: 20px;">This app demonstrates its own creation process. You're currently experiencing the first iteration - a minimal viable app that teaches you how to build and deploy itself. Each step below shows you exactly how this very app was created!</p>
+                        
+                        <div style="display: grid; gap: 15px; margin: 20px 0;">
+                            <div style="background: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 15px; border-left: 4px solid #6366f1;">
+                                <h4>1. Create the Structure</h4>
+                                <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 5px;">HTML, CSS, and JavaScript foundation</p>
+                            </div>
+                            <div style="background: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 15px; border-left: 4px solid #8b5cf6;">
+                                <h4>2. Host Your App</h4>
+                                <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 5px;">Deploy to the web instantly</p>
+                            </div>
+                            <div style="background: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 15px; border-left: 4px solid #06b6d4;">
+                                <h4>3. Install on iPhone</h4>
+                                <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 5px;">Add to home screen with custom icon</p>
+                            </div>
+                            <div style="background: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 15px; border-left: 4px solid #10b981;">
+                                <h4>4. Build Next Iteration</h4>
+                                <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 5px;">The loop continues and evolves</p>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; margin-top: 30px;">
+                            <button onclick="window.open('https://github.com', '_blank')" style="background: linear-gradient(45deg, #6366f1, #8b5cf6); border: none; color: white; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 600; margin: 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">🚀 Start Building</button>
+                            <button onclick="showFullMetaApp()" style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border: none; color: white; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 600; margin: 5px;">📋 View Full Tutorial</button>
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(255, 255, 255, 0.1); border-radius: 15px; padding: 20px; margin: 20px 0; border-left: 4px solid #6366f1;">
+                        <h3 style="margin-bottom: 10px;">💡 Loop Lab Insight</h3>
+                        <p>You just experienced a self-referential system: an app that teaches you how it was built, using itself as the example. This is the foundation for building more complex self-modifying applications. Welcome to the lab where apps evolve themselves!</p>
+                    </div>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        function showFullMetaApp() {
+            alert('The complete Meta Builder tutorial would show:\n\n• Step-by-step code walkthrough\n• Live deployment process\n• iPhone installation demo\n• Source code download\n• Next iteration ideas\n\nThis is the full self-building app experience!');
+        }
+
+        function closeModal() {
+            document.getElementById('appModal').style.display = 'none';
+        }
+
+        function openDocumentation() {
+            alert('📖 Loop Lab README\n\n🔬 Philosophy:\nLoop Lab is where applications build themselves and teach you how they work. Each app demonstrates its own creation process, forming self-referential learning loops.\n\n🚀 Getting Started:\n1. Explore the Self-Building Apps folder\n2. Launch Meta Builder to see the concept\n3. Use the tools to create your own iterations\n4. Share your creations to expand the lab\n\n🎯 Goal:\nCreate a self-sustaining ecosystem where apps evolve and teach others how to evolve.');
+        }
+
+        // Auto-expand the first folder for demo
+        setTimeout(() => {
+            toggleFolder('self-building');
+        }, 1000);
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('appModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
