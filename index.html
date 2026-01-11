@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loop Lab - Meta Diagram</title>
+    <title>Doodle Canvas</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Loop Lab">
-    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE4MCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIiByeD0iNDAiIGZpbGw9InVybCgjZ3JhZGllbnQwKSIvPgo8ZGVmcz4KPGF4aWFsR3JhZGllbnQgaWQ9ImdyYWRpZW50MCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM2MzY2ZjEiLz4KPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjOGI1Y2Y2Ii8+CjwvYXhpYWxHcmFkaWVudD4KPC9kZWZzPgo8Y2lyY2xlIGN4PSI5MCIgY3k9IjkwIiByPSIzNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI0Ii8+CjxjaXJjbGUgY3g9IjkwIiBjeT0iNjAiIHI9IjgiIGZpbGw9IndoaXRlIi8+CjxjaXJjbGUgY3g9IjExNSIgY3k9IjkwIiByPSI4IiBmaWxsPSJ3aGl0ZSIvPgo8Y2lyY2xlIGN4PSI5MCIgY3k9IjEyMCIgcj0iOCIgZmlsbD0id2hpdGUiLz4KPGF4aXNHcmFkaWVudCBpZD0iZ3JhZGllbnQwIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzYzNjZmMSIvPgo8c3RvcCBvZmZz2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjOGI1Y2Y2Ii8+CjwvYXhpYWxHcmFkaWVudD4KPC9zdmc+Cg==">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+    <meta name="apple-mobile-web-app-title" content="Doodle Canvas">
     <style>
         * {
             margin: 0;
@@ -18,1086 +16,474 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1e1e2e 0%, #2d1b69 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            color: white;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             padding: 20px;
+            color: white;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 40px;
-            animation: fadeInDown 0.8s ease-out;
-        }
-
-        .logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 20px;
-            background: linear-gradient(45deg, #6366f1, #8b5cf6);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            animation: float 3s ease-in-out infinite;
-            position: relative;
-        }
-
-        .logo::after {
-            content: "🔬";
-            font-size: 40px;
+            margin-bottom: 20px;
         }
 
         h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 10px;
-            background: linear-gradient(45deg, #fff, #a78bfa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
         .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.8;
-            font-weight: 300;
-            margin-bottom: 30px;
+            font-size: 1rem;
+            opacity: 0.9;
         }
 
-        .file-explorer {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
+        .app-container {
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            padding: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            max-width: 1200px;
+            width: 100%;
         }
 
-        .explorer-header {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 15px;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .control-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .color-input-wrapper {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .window-controls {
+        input[type="color"] {
+            width: 50px;
+            height: 40px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        input[type="range"] {
+            width: 150px;
+            height: 8px;
+            border-radius: 5px;
+            background: #d3d3d3;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            border: none;
+        }
+
+        .size-display {
+            font-size: 0.9rem;
+            color: #667eea;
+            font-weight: 600;
+            min-width: 40px;
+        }
+
+        .texture-buttons {
             display: flex;
             gap: 8px;
         }
 
-        .control {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-
-        .control.close { background: #ff5f57; }
-        .control.minimize { background: #ffbd2e; }
-        .control.maximize { background: #28ca42; }
-
-        .explorer-title {
-            margin-left: 10px;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .breadcrumb {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 10px 20px;
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.7);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .tree-view {
-            padding: 20px;
-        }
-
-        .folder, .file {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            margin: 5px 0;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid transparent;
-        }
-
-        .folder:hover, .file:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateX(5px);
-        }
-
-        .folder.expanded {
-            background: rgba(99, 102, 241, 0.1);
-            border-color: rgba(99, 102, 241, 0.3);
-        }
-
-        .icon {
-            width: 24px;
-            height: 24px;
-            margin-right: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-        }
-
-        .folder-content {
-            margin-left: 20px;
-            padding-left: 20px;
-            border-left: 2px solid rgba(255, 255, 255, 0.1);
-            max-height: 0;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .folder-content.expanded {
-            max-height: 1000px;
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-
-        .file-info {
-            flex: 1;
-        }
-
-        .file-name {
-            font-weight: 500;
-            font-size: 1rem;
-            margin-bottom: 2px;
-        }
-
-        .file-description {
-            font-size: 0.8rem;
-            opacity: 0.7;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .file-meta {
-            text-align: right;
-            font-size: 0.75rem;
-            opacity: 0.5;
-            margin-left: 15px;
-        }
-
-        .launch-btn {
-            background: linear-gradient(45deg, #6366f1, #8b5cf6);
-            border: none;
-            color: white;
+        .texture-btn {
             padding: 8px 16px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 0.8rem;
-            margin-left: 10px;
-            opacity: 0;
-            transform: translateX(-10px);
             transition: all 0.3s ease;
+            font-size: 0.85rem;
         }
 
-        .folder:hover .launch-btn, .file:hover .launch-btn {
-            opacity: 1;
-            transform: translateX(0);
+        .texture-btn:hover {
+            background: rgba(102, 126, 234, 0.1);
         }
 
-        .launch-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
-        }
-
-        .stats-bar {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 15px 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .coming-soon {
-            background: rgba(255, 193, 7, 0.1);
-            border: 1px solid rgba(255, 193, 7, 0.3);
-            color: rgba(255, 193, 7, 0.9);
-        }
-
-        .coming-soon:hover {
-            background: rgba(255, 193, 7, 0.15);
-        }
-
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 20px;
-        }
-
-        .modal-content {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 20px;
-            width: 100%;
-            max-width: 1200px;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-        }
-
-        .modal-header {
-            padding: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .close-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
+        .texture-btn.active {
+            background: #667eea;
             color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
         }
 
-        .close-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.1);
-        }
-
-        .tab-container {
+        .action-buttons {
             display: flex;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            margin: 20px;
-            overflow: hidden;
+            gap: 10px;
+            margin-left: auto;
         }
 
-        .tab {
-            flex: 1;
-            padding: 15px 20px;
-            background: transparent;
+        .btn {
+            padding: 10px 20px;
             border: none;
-            color: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
             font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        .tab.active {
-            background: rgba(255, 255, 255, 0.2);
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
         }
 
-        .tab-content {
-            display: none;
-            padding: 20px;
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
         }
 
-        .tab-content.active {
-            display: block;
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
         }
 
-        .diagram-container {
-            background: rgba(255, 255, 255, 0.95);
+        .btn-secondary:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .canvas-container {
+            position: relative;
+            background: white;
             border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            min-height: 400px;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .status-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
+        #canvas {
+            display: block;
+            cursor: crosshair;
+            border-radius: 15px;
         }
 
-        .status-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 15px;
-            border-left: 4px solid #6366f1;
-        }
-
-        .status-card.success { border-left-color: #10b981; }
-        .status-card.warning { border-left-color: #f59e0b; }
-        .status-card.error { border-left-color: #ef4444; }
-
-        .loading {
+        .footer {
+            margin-top: 20px;
             text-align: center;
-            padding: 40px;
-        }
-
-        .spinner {
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top: 3px solid #6366f1;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
+            opacity: 0.8;
+            font-size: 0.85rem;
         }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            
             h1 {
-                font-size: 2.5rem;
-            }
-            
-            .folder, .file {
-                padding: 10px;
-            }
-            
-            .file-meta {
-                display: none;
+                font-size: 2rem;
             }
 
-            .tab-container {
+            .controls {
                 flex-direction: column;
+                align-items: stretch;
+            }
+
+            .action-buttons {
+                margin-left: 0;
+                width: 100%;
+                flex-direction: column;
+            }
+
+            input[type="range"] {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo"></div>
-            <h1>Loop Lab</h1>
-            <p class="subtitle">Where apps build themselves and teach you how</p>
+    <div class="header">
+        <h1>🎨 Doodle Canvas</h1>
+        <p class="subtitle">Express yourself with colors and creativity</p>
+    </div>
+
+    <div class="app-container">
+        <div class="controls">
+            <div class="control-group">
+                <label>Color</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="colorPicker" value="#667eea">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>Brush Size</label>
+                <div class="color-input-wrapper">
+                    <input type="range" id="brushSize" min="1" max="50" value="5">
+                    <span class="size-display" id="sizeDisplay">5px</span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>Brush Texture</label>
+                <div class="texture-buttons">
+                    <button class="texture-btn active" data-texture="normal">Normal</button>
+                    <button class="texture-btn" data-texture="spray">Spray</button>
+                    <button class="texture-btn" data-texture="calligraphy">Calligraphy</button>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" id="saveBtn">💾 Save Image</button>
+                <button class="btn btn-danger" id="clearBtn">🗑️ Clear Canvas</button>
+            </div>
         </div>
 
-        <div class="file-explorer">
-            <div class="explorer-header">
-                <div class="window-controls">
-                    <div class="control close"></div>
-                    <div class="control minimize"></div>
-                    <div class="control maximize"></div>
-                </div>
-                <div class="explorer-title">Loop Lab Explorer</div>
-            </div>
-
-            <div class="breadcrumb">
-                📁 /home/lab/experiments/
-            </div>
-
-            <div class="tree-view">
-                <div class="folder" onclick="toggleFolder('self-building')">
-                    <div class="icon">🔧</div>
-                    <div class="file-info">
-                        <div class="file-name">Self-Building Apps</div>
-                        <div class="file-description">Apps that demonstrate their own creation process</div>
-                    </div>
-                    <div class="file-meta">3 items</div>
-                    <button class="launch-btn" onclick="event.stopPropagation(); openFolder('self-building')">Open</button>
-                </div>
-                <div class="folder-content" id="self-building">
-                    <div class="file" onclick="launchApp('meta-builder')">
-                        <div class="icon">⚡</div>
-                        <div class="file-info">
-                            <div class="file-name">Meta Builder</div>
-                            <div class="file-description">The app that teaches you how it was built</div>
-                        </div>
-                        <div class="file-meta">HTML • 15KB</div>
-                        <button class="launch-btn" onclick="event.stopPropagation(); launchApp('meta-builder')">Launch</button>
-                    </div>
-                    <div class="file" onclick="launchApp('meta-diagram')">
-                        <div class="icon">🎯</div>
-                        <div class="file-info">
-                            <div class="file-name">Meta Diagram</div>
-                            <div class="file-description">Visualizes its own build pipeline and architecture</div>
-                        </div>
-                        <div class="file-meta">HTML • 25KB</div>
-                        <button class="launch-btn" onclick="event.stopPropagation(); launchApp('meta-diagram')">Launch</button>
-                    </div>
-                    <div class="file coming-soon">
-                        <div class="icon">🔄</div>
-                        <div class="file-info">
-                            <div class="file-name">Evolution Tracker</div>
-                            <div class="file-description">Tracks how apps evolve over iterations</div>
-                        </div>
-                        <div class="file-meta">Coming Soon</div>
-                    </div>
-                </div>
-
-                <div class="folder" onclick="toggleFolder('tools')">
-                    <div class="icon">🛠️</div>
-                    <div class="file-info">
-                        <div class="file-name">Development Tools</div>
-                        <div class="file-description">Visual builders and deployment helpers</div>
-                    </div>
-                    <div class="file-meta">4 items</div>
-                    <button class="launch-btn" onclick="event.stopPropagation(); openFolder('tools')">Open</button>
-                </div>
-                <div class="folder-content" id="tools">
-                    <div class="file coming-soon">
-                        <div class="icon">🎨</div>
-                        <div class="file-info">
-                            <div class="file-name">Visual App Builder</div>
-                            <div class="file-description">Drag & drop interface for creating apps</div>
-                        </div>
-                        <div class="file-meta">Coming Soon</div>
-                    </div>
-                    <div class="file coming-soon">
-                        <div class="icon">🚀</div>
-                        <div class="file-info">
-                            <div class="file-name">One-Click Deploy</div>
-                            <div class="file-description">Instant deployment to multiple platforms</div>
-                        </div>
-                        <div class="file-meta">Coming Soon</div>
-                    </div>
-                    <div class="file coming-soon">
-                        <div class="icon">📱</div>
-                        <div class="file-info">
-                            <div class="file-name">App Store Publisher</div>
-                            <div class="file-description">Automated app store submission</div>
-                        </div>
-                        <div class="file-meta">Coming Soon</div>
-                    </div>
-                    <div class="file coming-soon">
-                        <div class="icon">🔍</div>
-                        <div class="file-info">
-                            <div class="file-name">Code Inspector</div>
-                            <div class="file-description">Real-time code analysis and suggestions</div>
-                        </div>
-                        <div class="file-meta">Coming Soon</div>
-                    </div>
-                </div>
-
-                <div class="folder" onclick="toggleFolder('examples')">
-                    <div class="icon">📚</div>
-                    <div class="file-info">
-                        <div class="file-name">Example Projects</div>
-                        <div class="file-description">Ready-to-use app templates and demos</div>
-                    </div>
-                    <div class="file-meta">6 items</div>
-                    <button class="launch-btn" onclick="event.stopPropagation(); openFolder('examples')">Open</button>
-                </div>
-                <div class="folder-content" id="examples">
-                    <div class="file coming-soon">
-                        <div class="icon">🎮</div>
-                        <div class="file-info">
-                            <div class="file-name">Puzzle Game Template</div>
-                            <div class="file-description">Simple game that explains its mechanics</div>
-                        </div>
-                        <div class="file-meta">Coming Soon</div>
-                    </div>
-                    <div class="file coming-soon">
-                        <div class="icon">📝</div>
-                        <div class="file-info">
-                            <div class="file-name">Note-Taking App</div>
-                            <div class="file-description">Self-documenting productivity tool</div>
-                        </div>
-                        <div class="file-meta">Coming Soon</div>
-                    </div>
-                    <div class="file coming-soon">
-                        <div class="icon">🎵</div>
-                        <div class="file-info">
-                            <div class="file-name">Music Player</div>
-                            <div class="file-description">Audio app with source code tutorial</div>
-                        </div>
-                        <div class="file-meta">Coming Soon</div>
-                    </div>
-                    <div class="file coming-soon">
-                        <div class="icon">📊</div>
-                        <div class="file-info">
-                            <div class="file-name">Analytics Dashboard</div>
-                            <div class="file-description">Data viz with self-building charts</div>
-                        </div>
-                        <div class="file-meta">Coming Soon</div>
-                    </div>
-                    <div class="file coming-soon">
-                        <div class="icon">🛒</div>
-                        <div class="file-info">
-                            <div class="file-name">E-commerce Store</div>
-                            <div class="file-description">Shopping app that explains its architecture</div>
-                        </div>
-                        <div class="file-meta">Coming Soon</div>
-                    </div>
-                    <div class="file coming-soon">
-                        <div class="icon">💬</div>
-                        <div class="file-info">
-                            <div class="file-name">Chat Application</div>
-                            <div class="file-description">Real-time messaging with code walkthrough</div>
-                        </div>
-                        <div class="file-meta">Coming Soon</div>
-                    </div>
-                </div>
-
-                <div class="file" onclick="openDocumentation()">
-                    <div class="icon">📖</div>
-                    <div class="file-info">
-                        <div class="file-name">README.md</div>
-                        <div class="file-description">Learn about the Loop Lab philosophy and getting started</div>
-                    </div>
-                    <div class="file-meta">Markdown • 8KB</div>
-                    <button class="launch-btn" onclick="event.stopPropagation(); openDocumentation()">Read</button>
-                </div>
-            </div>
-
-            <div class="stats-bar">
-                <div>2 active projects • 12 planned experiments</div>
-                <div>Last updated: Now</div>
-            </div>
+        <div class="canvas-container">
+            <canvas id="canvas" width="1100" height="600"></canvas>
         </div>
     </div>
 
-    <!-- Modal for the Meta Apps -->
-    <div class="modal" id="appModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modalTitle">Meta App</h2>
-                <button class="close-btn" onclick="closeModal()">&times;</button>
-            </div>
-            <div id="modalBody">
-                <!-- App content will be loaded here -->
-            </div>
-        </div>
+    <div class="footer">
+        <p>Click and drag to draw • Choose your style and create something amazing!</p>
     </div>
 
     <script>
-        let currentRepo = 'loop'; // Default repo name
-        let currentOwner = ''; // Will be determined from GitHub API or user input
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const colorPicker = document.getElementById('colorPicker');
+        const brushSize = document.getElementById('brushSize');
+        const sizeDisplay = document.getElementById('sizeDisplay');
+        const saveBtn = document.getElementById('saveBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const textureButtons = document.querySelectorAll('.texture-btn');
 
-        function toggleFolder(folderId) {
-            const folder = document.getElementById(folderId);
-            const folderElement = folder.previousElementSibling;
-            
-            folder.classList.toggle('expanded');
-            folderElement.classList.toggle('expanded');
-        }
+        let isDrawing = false;
+        let currentColor = '#667eea';
+        let currentSize = 5;
+        let currentTexture = 'normal';
+        let lastX = 0;
+        let lastY = 0;
 
-        function openFolder(folderId) {
-            toggleFolder(folderId);
-        }
+        // Initialize canvas with white background
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        function launchApp(appId) {
-            if (appId === 'meta-builder') {
-                loadMetaBuilder();
-            } else if (appId === 'meta-diagram') {
-                loadMetaDiagram();
-            }
-        }
+        // Event listeners for controls
+        colorPicker.addEventListener('input', (e) => {
+            currentColor = e.target.value;
+        });
 
-        function loadMetaBuilder() {
-            const modal = document.getElementById('appModal');
-            const modalBody = document.getElementById('modalBody');
-            const modalTitle = document.getElementById('modalTitle');
-            
-            modalTitle.textContent = 'Meta Builder';
-            
-            modalBody.innerHTML = `
-                <div style="padding: 20px;">
-                    <div style="text-align: center; margin-bottom: 30px;">
-                        <div style="width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(45deg, #6366f1, #8b5cf6); border-radius: 20px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); animation: pulse 2s infinite;">
-                            <span style="font-size: 40px;">⚡</span>
-                        </div>
-                        <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; background: linear-gradient(45deg, #fff, #f0f9ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Meta Builder</h1>
-                        <p style="font-size: 1.1rem; opacity: 0.9; font-weight: 300;">The app that builds itself and shows you how</p>
-                    </div>
+        brushSize.addEventListener('input', (e) => {
+            currentSize = e.target.value;
+            sizeDisplay.textContent = `${currentSize}px`;
+        });
 
-                    <div style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 20px; margin: 20px 0; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.2); padding: 20px;">
-                        <h3 style="margin-bottom: 15px;">🎯 The Self-Building Loop</h3>
-                        <p style="margin-bottom: 20px;">This app demonstrates its own creation process. You're currently experiencing the evolution - now with Meta Diagram integration! Each step below shows you exactly how this very app was created and deployed.</p>
-                        
-                        <div style="display: grid; gap: 15px; margin: 20px 0;">
-                            <div style="background: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 15px; border-left: 4px solid #6366f1;">
-                                <h4>1. Create the Structure</h4>
-                                <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 5px;">HTML, CSS, and JavaScript foundation</p>
-                            </div>
-                            <div style="background: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 15px; border-left: 4px solid #8b5cf6;">
-                                <h4>2. Add Self-Analysis</h4>
-                                <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 5px;">Meta Diagram integration for workflow visualization</p>
-                            </div>
-                            <div style="background: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 15px; border-left: 4px solid #06b6d4;">
-                                <h4>3. Deploy & Monitor</h4>
-                                <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 5px;">GitHub Pages deployment with status tracking</p>
-                            </div>
-                            <div style="background: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 15px; border-left: 4px solid #10b981;">
-                                <h4>4. Visualize & Iterate</h4>
-                                <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 5px;">See the complete build pipeline and evolve</p>
-                            </div>
-                        </div>
-
-                        <div style="text-align: center; margin-top: 30px;">
-                            <button onclick="launchApp('meta-diagram')" style="background: linear-gradient(45deg, #6366f1, #8b5cf6); border: none; color: white; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 600; margin: 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">🎯 Launch Meta Diagram</button>
-                            <button onclick="window.open('https://github.com', '_blank')" style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border: none; color: white; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 600; margin: 5px;">🚀 Start Building</button>
-                        </div>
-                    </div>
-
-                    <div style="background: rgba(255, 255, 255, 0.1); border-radius: 15px; padding: 20px; margin: 20px 0; border-left: 4px solid #6366f1;">
-                        <h3 style="margin-bottom: 10px;">💡 Loop Lab Insight</h3>
-                        <p>You just experienced a self-referential system: an app that teaches you how it was built, using itself as the example. Now with Meta Diagram, you can visualize the entire build pipeline and architecture. This is the foundation for building more complex self-modifying applications!</p>
-                    </div>
-                </div>
-            `;
-            
-            modal.style.display = 'flex';
-        }
-
-        function loadMetaDiagram() {
-            const modal = document.getElementById('appModal');
-            const modalBody = document.getElementById('modalBody');
-            const modalTitle = document.getElementById('modalTitle');
-            
-            modalTitle.textContent = 'Meta Diagram';
-            
-            modalBody.innerHTML = `
-                <div class="tab-container">
-                    <button class="tab active" onclick="switchTab('workflow')">🔄 Build Workflow</button>
-                    <button class="tab" onclick="switchTab('architecture')">🏗️ App Architecture</button>
-                    <button class="tab" onclick="switchTab('status')">📊 Live Status</button>
-                </div>
-
-                <div class="tab-content active" id="workflow-content">
-                    <div style="text-align: center; margin-bottom: 20px;">
-                        <h3>🔄 Development Workflow Visualization</h3>
-                        <p style="opacity: 0.8;">This diagram shows how this very app was built and deployed</p>
-                    </div>
-                    <div class="diagram-container" id="workflow-diagram">
-                        <div class="loading">
-                            <div class="spinner"></div>
-                            <p>Analyzing build pipeline...</p>
-                        </div>
-                    </div>
-                    <div style="background: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 15px; margin-top: 20px;">
-                        <h4>🧠 Self-Referential Insight</h4>
-                        <p>This diagram was generated by the app itself, analyzing its own GitHub repository and deployment process. It's digital introspection in action!</p>
-                    </div>
-                </div>
-
-                <div class="tab-content" id="architecture-content">
-                    <div style="text-align: center; margin-bottom: 20px;">
-                        <h3>🏗️ App Architecture Analysis</h3>
-                        <p style="opacity: 0.8;">How this app is structured and organized</p>
-                    </div>
-                    <div class="diagram-container" id="architecture-diagram">
-                        <div class="loading">
-                            <div class="spinner"></div>
-                            <p>Mapping app structure...</p>
-                        </div>
-                    </div>
-                    <div style="background: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 15px; margin-top: 20px;">
-                        <h4>🔍 Code Analysis</h4>
-                        <p>The app scanned its own HTML structure, JavaScript functions, and CSS classes to generate this architectural view. Meta-programming at its finest!</p>
-                    </div>
-                </div>
-
-                <div class="tab-content" id="status-content">
-                    <div style="text-align: center; margin-bottom: 20px;">
-                        <h3>📊 Live Repository Status</h3>
-                        <p style="opacity: 0.8;">Real-time data from GitHub API</p>
-                        <div style="margin: 20px 0;">
-                            <label style="margin-right: 10px;">Repository:</label>
-                            <input type="text" id="repoInput" placeholder="username/repo" style="padding: 8px; border-radius: 5px; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: white; margin-right: 10px;">
-                            <button onclick="updateRepository()" style="padding: 8px 16px; background: #6366f1; color: white; border: none; border-radius: 5px; cursor: pointer;">Update</button>
-                        </div>
-                    </div>
-                    <div class="status-grid" id="status-grid">
-                        <div class="loading">
-                            <div class="spinner"></div>
-                            <p>Fetching repository data...</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            modal.style.display = 'flex';
-            
-            // Initialize Mermaid
-            mermaid.initialize({ 
-                theme: 'base',
-                themeVariables: {
-                    primaryColor: '#6366f1',
-                    primaryTextColor: '#1e1e2e',
-                    primaryBorderColor: '#8b5cf6',
-                    lineColor: '#6366f1',
-                    secondaryColor: '#f1f5f9',
-                    tertiaryColor: '#e2e8f0'
-                }
+        textureButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                textureButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentTexture = btn.dataset.texture;
             });
-            
-            // Load initial content
-            setTimeout(() => {
-                generateWorkflowDiagram();
-                generateArchitectureDiagram();
-                loadRepositoryStatus();
-            }, 500);
+        });
+
+        // Drawing functions
+        function startDrawing(e) {
+            isDrawing = true;
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+
+            lastX = (e.clientX - rect.left) * scaleX;
+            lastY = (e.clientY - rect.top) * scaleY;
         }
 
-        function switchTab(tabName) {
-            // Remove active class from all tabs and content
-            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            
-            // Add active class to selected tab and content
-            event.target.classList.add('active');
-            document.getElementById(tabName + '-content').classList.add('active');
+        function draw(e) {
+            if (!isDrawing) return;
+
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+
+            const x = (e.clientX - rect.left) * scaleX;
+            const y = (e.clientY - rect.top) * scaleY;
+
+            switch(currentTexture) {
+                case 'normal':
+                    drawNormal(x, y);
+                    break;
+                case 'spray':
+                    drawSpray(x, y);
+                    break;
+                case 'calligraphy':
+                    drawCalligraphy(x, y);
+                    break;
+            }
+
+            lastX = x;
+            lastY = y;
         }
 
-        async function generateWorkflowDiagram() {
-            const workflowContainer = document.getElementById('workflow-diagram');
-            
-            const mermaidCode = `
-                graph TD
-                    A[🧠 Concept: Self-Referential App] --> B[📝 Code Creation]
-                    B --> C[🔧 HTML Structure]
-                    B --> D[🎨 CSS Styling]
-                    B --> E[⚡ JavaScript Logic]
-                    
-                    C --> F[📁 Commit to GitHub]
-                    D --> F
-                    E --> F
-                    
-                    F --> G[🚀 GitHub Pages Build]
-                    G --> H[🌐 Live Deployment]
-                    
-                    H --> I[📊 Meta Diagram Analysis]
-                    I --> J[🔍 Self-Inspection]
-                    J --> K[📈 Generate This Diagram]
-                    
-                    K --> L[🔄 The Loop Completes]
-                    L --> M[✨ App Shows Its Own Creation]
-                    
-                    style A fill:#6366f1,stroke:#8b5cf6,color:#fff
-                    style K fill:#10b981,stroke:#059669,color:#fff
-                    style M fill:#f59e0b,stroke:#d97706,color:#fff
-                    style L fill:#ef4444,stroke:#dc2626,color:#fff
-            `;
-            
-            try {
-                const { svg } = await mermaid.render('workflow-diagram-svg', mermaidCode);
-                workflowContainer.innerHTML = svg;
-            } catch (error) {
-                workflowContainer.innerHTML = `<p style="color: #ef4444;">Error generating workflow diagram: ${error.message}</p>`;
+        function drawNormal(x, y) {
+            ctx.strokeStyle = currentColor;
+            ctx.lineWidth = currentSize;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(x, y);
+            ctx.stroke();
+        }
+
+        function drawSpray(x, y) {
+            const density = 20;
+            const radius = currentSize * 2;
+
+            for (let i = 0; i < density; i++) {
+                const offsetX = (Math.random() - 0.5) * radius;
+                const offsetY = (Math.random() - 0.5) * radius;
+
+                ctx.fillStyle = currentColor;
+                ctx.fillRect(x + offsetX, y + offsetY, 1, 1);
             }
         }
 
-        async function generateArchitectureDiagram() {
-            const architectureContainer = document.getElementById('architecture-diagram');
-            
-            // Analyze the current page structure
-            const structure = analyzePageStructure();
-            
-            const mermaidCode = `
-                graph TB
-                    subgraph "🌐 Browser Environment"
-                        A[📄 index.html] --> B[🎨 CSS Styles]
-                        A --> C[⚡ JavaScript Engine]
-                    end
-                    
-                    subgraph "🏗️ App Components"
-                        D[🎯 File Explorer UI] --> E[📁 Folder Management]
-                        D --> F[🚀 App Launcher]
-                        F --> G[📱 Modal System]
-                        G --> H[🔄 Meta Diagram]
-                        G --> I[⚡ Meta Builder]
-                    end
-                    
-                    subgraph "🔧 Self-Analysis Features"
-                        H --> J[📊 GitHub API Client]
-                        H --> K[🎨 Mermaid Renderer]
-                        H --> L[🧠 Structure Scanner]
-                        L --> M[📝 Code Introspection]
-                    end
-                    
-                    subgraph "🌍 External Services"
-                        J --> N[🐙 GitHub Repository]
-                        N --> O[📦 GitHub Pages]
-                        O --> P[🌐 Live App URL]
-                    end
-                    
-                    C --> D
-                    B --> D
-                    M --> H
-                    P --> A
-                    
-                    style H fill:#6366f1,stroke:#8b5cf6,color:#fff
-                    style M fill:#10b981,stroke:#059669,color:#fff
-                    style P fill:#f59e0b,stroke:#d97706,color:#fff
-            `;
-            
-            try {
-                const { svg } = await mermaid.render('architecture-diagram-svg', mermaidCode);
-                architectureContainer.innerHTML = svg;
-            } catch (error) {
-                architectureContainer.innerHTML = `<p style="color: #ef4444;">Error generating architecture diagram: ${error.message}</p>`;
-            }
+        function drawCalligraphy(x, y) {
+            ctx.strokeStyle = currentColor;
+            ctx.lineWidth = currentSize * 2;
+            ctx.lineCap = 'square';
+            ctx.lineJoin = 'miter';
+
+            // Create angled stroke for calligraphy effect
+            const angle = Math.atan2(y - lastY, x - lastX);
+            const perpAngle = angle + Math.PI / 2;
+
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(x, y);
+            ctx.stroke();
+
+            // Add thickness variation
+            ctx.lineWidth = currentSize * 0.3;
+            ctx.beginPath();
+            ctx.moveTo(lastX + Math.cos(perpAngle) * currentSize, lastY + Math.sin(perpAngle) * currentSize);
+            ctx.lineTo(x + Math.cos(perpAngle) * currentSize, y + Math.sin(perpAngle) * currentSize);
+            ctx.stroke();
         }
 
-        function analyzePageStructure() {
-            // Self-analysis: scan the current page structure
-            const structure = {
-                elements: document.querySelectorAll('*').length,
-                scripts: document.querySelectorAll('script').length,
-                styles: document.querySelectorAll('style').length,
-                functions: extractFunctionNames(),
-                classes: extractCSSClasses()
-            };
-            
-            return structure;
+        function stopDrawing() {
+            isDrawing = false;
         }
 
-        function extractFunctionNames() {
-            // Extract function names from the current script
-            const scriptContent = document.documentElement.outerHTML;
-            const functionRegex = /function\s+([a-zA-Z_$][0-9a-zA-Z_$]*)/g;
-            const functions = [];
-            let match;
-            
-            while ((match = functionRegex.exec(scriptContent)) !== null) {
-                functions.push(match[1]);
-            }
-            
-            return functions.slice(0, 10); // Limit to first 10
-        }
+        // Mouse events
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
 
-        function extractCSSClasses() {
-            // Extract CSS class names
-            const styleSheets = Array.from(document.styleSheets);
-            const classes = new Set();
-            
-            try {
-                styleSheets.forEach(sheet => {
-                    if (sheet.cssRules) {
-                        Array.from(sheet.cssRules).forEach(rule => {
-                            if (rule.selectorText) {
-                                const classMatches = rule.selectorText.match(/\.[a-zA-Z_-]+/g);
-                                if (classMatches) {
-                                    classMatches.forEach(cls => classes.add(cls.substring(1)));
-                                }
-                            }
-                        });
-                    }
-                });
-            } catch (e) {
-                // Cross-origin or other restrictions
-            }
-            
-            return Array.from(classes).slice(0, 10); // Limit to first 10
-        }
+        // Touch events for mobile
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const mouseEvent = new MouseEvent('mousedown', {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+            canvas.dispatchEvent(mouseEvent);
+        });
 
-        async function loadRepositoryStatus() {
-            const statusGrid = document.getElementById('status-grid');
-            
-            try {
-                // Extract repository info from current GitHub Pages URL
-                const hostname = window.location.hostname;
-                let repoPath;
-                
-                if (hostname.endsWith('.github.io')) {
-                    const owner = hostname.replace('.github.io', '');
-                    const repo = window.location.pathname.split('/')[1] || owner; // repo name from path, fallback to owner
-                    repoPath = `${owner}/${repo}`;
-                    currentOwner = owner;
-                    currentRepo = repo;
-                } else {
-                    // Fallback for local development or other hosting
-                    repoPath = currentOwner && currentRepo ? `${currentOwner}/${currentRepo}` : 'example/loop';
-                }
-                
-                document.getElementById('repoInput').value = repoPath;
-                
-                await fetchRepositoryData(repoPath);
-            } catch (error) {
-                statusGrid.innerHTML = `
-                    <div class="status-card error">
-                        <h4>❌ Connection Error</h4>
-                        <p>Unable to fetch repository data. Please check the repository name and try again.</p>
-                        <small>Error: ${error.message}</small>
-                    </div>
-                `;
-            }
-        }
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const mouseEvent = new MouseEvent('mousemove', {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+            canvas.dispatchEvent(mouseEvent);
+        });
 
-        async function fetchRepositoryData(repoPath) {
-            const statusGrid = document.getElementById('status-grid');
-            
-            try {
-                // Fetch repository information
-                const repoResponse = await fetch(`https://api.github.com/repos/${repoPath}`);
-                
-                if (!repoResponse.ok) {
-                    throw new Error(`Repository not found: ${repoPath}`);
-                }
-                
-                const repoData = await repoResponse.json();
-                
-                // Fetch latest commit
-                const commitsResponse = await fetch(`https://api.github.com/repos/${repoPath}/commits?per_page=1`);
-                const commitsData = await commitsResponse.json();
-                const latestCommit = commitsData[0];
-                
-                // Fetch Pages deployment status
-                let pagesStatus = 'Unknown';
-                try {
-                    const pagesResponse = await fetch(`https://api.github.com/repos/${repoPath}/pages`);
-                    if (pagesResponse.ok) {
-                        const pagesData = await pagesResponse.json();
-                        pagesStatus = pagesData.status || 'Active';
-                    }
-                } catch (e) {
-                    pagesStatus = 'Not configured';
-                }
-                
-                // Generate status cards
-                statusGrid.innerHTML = `
-                    <div class="status-card success">
-                        <h4>📁 Repository Status</h4>
-                        <p><strong>${repoData.name}</strong></p>
-                        <p>⭐ ${repoData.stargazers_count} stars</p>
-                        <p>🍴 ${repoData.forks_count} forks</p>
-                        <small>Created: ${new Date(repoData.created_at).toLocaleDateString()}</small>
-                    </div>
-                    
-                    <div class="status-card success">
-                        <h4>📝 Latest Commit</h4>
-                        <p><strong>${latestCommit.commit.message}</strong></p>
-                        <p>👤 ${latestCommit.commit.author.name}</p>
-                        <small>${new Date(latestCommit.commit.author.date).toLocaleString()}</small>
-                    </div>
-                    
-                    <div class="status-card ${pagesStatus === 'built' || pagesStatus === 'Active' ? 'success' : 'warning'}">
-                        <h4>🚀 Deployment Status</h4>
-                        <p><strong>GitHub Pages: ${pagesStatus}</strong></p>
-                        ${repoData.homepage ? `<p>🌐 <a href="${repoData.homepage}" target="_blank" style="color: #60a5fa;">Live Site</a></p>` : ''}
-                        <small>Last updated: ${new Date(repoData.updated_at).toLocaleString()}</small>
-                    </div>
-                    
-                    <div class="status-card">
-                        <h4>🔍 Self-Analysis</h4>
-                        <p><strong>This app analyzed itself!</strong></p>
-                        <p>📊 Functions: ${extractFunctionNames().length}</p>
-                        <p>🎨 CSS Classes: ${extractCSSClasses().length}</p>
-                        <small>Analysis completed: ${new Date().toLocaleString()}</small>
-                    </div>
-                `;
-                
-            } catch (error) {
-                statusGrid.innerHTML = `
-                    <div class="status-card error">
-                        <h4>❌ Error</h4>
-                        <p>Failed to fetch repository data</p>
-                        <small>${error.message}</small>
-                    </div>
-                `;
-            }
-        }
+        canvas.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            const mouseEvent = new MouseEvent('mouseup', {});
+            canvas.dispatchEvent(mouseEvent);
+        });
 
-        function updateRepository() {
-            const repoInput = document.getElementById('repoInput').value.trim();
-            if (repoInput && repoInput.includes('/')) {
-                const [owner, repo] = repoInput.split('/');
-                currentOwner = owner;
-                currentRepo = repo;
-                
-                const statusGrid = document.getElementById('status-grid');
-                statusGrid.innerHTML = `
-                    <div class="loading">
-                        <div class="spinner"></div>
-                        <p>Fetching ${repoInput} data...</p>
-                    </div>
-                `;
-                
-                fetchRepositoryData(repoInput);
-            } else {
-                alert('Please enter a valid repository path (e.g., username/repository)');
-            }
-        }
+        // Save image
+        saveBtn.addEventListener('click', () => {
+            const link = document.createElement('a');
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+            link.download = `doodle-${timestamp}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
 
-        function closeModal() {
-            document.getElementById('appModal').style.display = 'none';
-        }
-
-        function openDocumentation() {
-            alert('📖 Loop Lab README\n\n🔬 Philosophy:\nLoop Lab is where applications build themselves and teach you how they work. Each app demonstrates its own creation process, forming self-referential learning loops.\n\n🚀 Getting Started:\n1. Explore the Self-Building Apps folder\n2. Launch Meta Builder to see the concept\n3. Use Meta Diagram to visualize the process\n4. Create your own iterations\n\n🎯 Goal:\nCreate a self-sustaining ecosystem where apps evolve and teach others how to evolve.');
-        }
-
-        // Auto-expand the first folder for demo
-        setTimeout(() => {
-            toggleFolder('self-building');
-        }, 1000);
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('appModal');
-            if (event.target === modal) {
-                closeModal();
-            }
-        }
-
-        // Initialize Mermaid when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            if (typeof mermaid !== 'undefined') {
-                mermaid.initialize({ 
-                    startOnLoad: false,
-                    theme: 'base',
-                    themeVariables: {
-                        primaryColor: '#6366f1',
-                        primaryTextColor: '#1e1e2e',
-                        primaryBorderColor: '#8b5cf6',
-                        lineColor: '#6366f1',
-                        secondaryColor: '#f1f5f9',
-                        tertiaryColor: '#e2e8f0'
-                    }
-                });
+        // Clear canvas
+        clearBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to clear the canvas? This cannot be undone.')) {
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
             }
         });
+
+        // Responsive canvas sizing
+        function resizeCanvas() {
+            const container = document.querySelector('.canvas-container');
+            const maxWidth = container.clientWidth - 40;
+            const maxHeight = window.innerHeight - 400;
+
+            if (maxWidth < 1100 || maxHeight < 600) {
+                const scale = Math.min(maxWidth / 1100, maxHeight / 600);
+                canvas.style.width = (1100 * scale) + 'px';
+                canvas.style.height = (600 * scale) + 'px';
+            } else {
+                canvas.style.width = '1100px';
+                canvas.style.height = '600px';
+            }
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
     </script>
 </body>
 </html>
