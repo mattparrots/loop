@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doodle Canvas</title>
+    <title>Creative Hub - Home</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Doodle Canvas">
+    <meta name="apple-mobile-web-app-title" content="Creative Hub">
     <style>
         * {
             margin: 0;
@@ -27,141 +27,112 @@
 
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 700;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
         .subtitle {
-            font-size: 1rem;
+            font-size: 1.2rem;
             opacity: 0.9;
         }
 
-        .app-container {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-            max-width: 1200px;
+        .container {
+            max-width: 900px;
             width: 100%;
         }
 
-        .controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
+        .apps-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+        }
+
+        .apps-section h2 {
+            color: #667eea;
+            font-size: 1.5rem;
             margin-bottom: 20px;
-            padding: 15px;
-            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .app-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 15px;
-            align-items: center;
-        }
-
-        .control-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .control-group label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #667eea;
-        }
-
-        .color-input-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        input[type="color"] {
-            width: 50px;
-            height: 40px;
-            border: 2px solid #667eea;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        input[type="range"] {
-            width: 150px;
-            height: 8px;
-            border-radius: 5px;
-            background: #d3d3d3;
-            outline: none;
-            -webkit-appearance: none;
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #667eea;
-            cursor: pointer;
-        }
-
-        input[type="range"]::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #667eea;
-            cursor: pointer;
-            border: none;
-        }
-
-        .size-display {
-            font-size: 0.9rem;
-            color: #667eea;
-            font-weight: 600;
-            min-width: 40px;
-        }
-
-        .texture-buttons {
-            display: flex;
-            gap: 8px;
-        }
-
-        .texture-btn {
-            padding: 8px 16px;
-            border: 2px solid #667eea;
-            background: white;
-            color: #667eea;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            font-size: 0.85rem;
-        }
-
-        .texture-btn:hover {
-            background: rgba(102, 126, 234, 0.1);
-        }
-
-        .texture-btn.active {
-            background: #667eea;
+            padding: 25px;
+            text-decoration: none;
             color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        .action-buttons {
+        .app-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .app-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .app-card p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .todo-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+
+        .todo-section h2 {
+            color: #667eea;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .todo-input-container {
             display: flex;
             gap: 10px;
-            margin-left: auto;
+            margin-bottom: 20px;
+        }
+
+        #todoInput {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        #todoInput:focus {
+            border-color: #764ba2;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         .btn {
-            padding: 10px 20px;
+            padding: 12px 24px;
             border: none;
             border-radius: 10px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 1rem;
             transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
@@ -176,47 +147,80 @@
             box-shadow: 0 6px 15px rgba(0,0,0,0.2);
         }
 
-        .btn-secondary {
-            background: white;
-            color: #667eea;
-            border: 2px solid #667eea;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(102, 126, 234, 0.1);
-        }
-
         .btn-danger {
             background: #ef4444;
             color: white;
+            padding: 8px 12px;
+            font-size: 0.9rem;
         }
 
         .btn-danger:hover {
             background: #dc2626;
         }
 
-        .canvas-container {
-            position: relative;
+        .todo-list {
+            list-style: none;
+        }
+
+        .todo-item {
             background: white;
-            border-radius: 15px;
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
-            overflow: hidden;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
             display: flex;
-            justify-content: center;
             align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
         }
 
-        #canvas {
-            display: block;
-            cursor: crosshair;
-            border-radius: 15px;
+        .todo-item:hover {
+            border-color: #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
         }
 
-        .footer {
-            margin-top: 20px;
+        .todo-item.completed {
+            opacity: 0.6;
+            background: #f9fafb;
+        }
+
+        .todo-item.completed .todo-text {
+            text-decoration: line-through;
+            color: #9ca3af;
+        }
+
+        .todo-checkbox {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .todo-text {
+            flex: 1;
+            color: #374151;
+            font-size: 1rem;
+        }
+
+        .empty-state {
             text-align: center;
-            opacity: 0.8;
-            font-size: 0.85rem;
+            padding: 40px;
+            color: #9ca3af;
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            color: #667eea;
+            font-weight: 600;
         }
 
         @media (max-width: 768px) {
@@ -224,266 +228,156 @@
                 font-size: 2rem;
             }
 
-            .controls {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .action-buttons {
-                margin-left: 0;
-                width: 100%;
+            .todo-input-container {
                 flex-direction: column;
             }
 
-            input[type="range"] {
-                width: 100%;
+            .apps-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>🎨 Doodle Canvas</h1>
-        <p class="subtitle">Express yourself with colors and creativity</p>
+        <h1>✨ Creative Hub</h1>
+        <p class="subtitle">Your space for ideas and creativity</p>
     </div>
 
-    <div class="app-container">
-        <div class="controls">
-            <div class="control-group">
-                <label>Color</label>
-                <div class="color-input-wrapper">
-                    <input type="color" id="colorPicker" value="#667eea">
-                </div>
-            </div>
-
-            <div class="control-group">
-                <label>Brush Size</label>
-                <div class="color-input-wrapper">
-                    <input type="range" id="brushSize" min="1" max="50" value="5">
-                    <span class="size-display" id="sizeDisplay">5px</span>
-                </div>
-            </div>
-
-            <div class="control-group">
-                <label>Brush Texture</label>
-                <div class="texture-buttons">
-                    <button class="texture-btn active" data-texture="normal">Normal</button>
-                    <button class="texture-btn" data-texture="spray">Spray</button>
-                    <button class="texture-btn" data-texture="calligraphy">Calligraphy</button>
-                </div>
-            </div>
-
-            <div class="action-buttons">
-                <button class="btn btn-primary" id="saveBtn">💾 Save Image</button>
-                <button class="btn btn-danger" id="clearBtn">🗑️ Clear Canvas</button>
+    <div class="container">
+        <div class="apps-section">
+            <h2>🚀 Apps</h2>
+            <div class="apps-grid">
+                <a href="canvas.html" class="app-card">
+                    <h3>🎨 Doodle Canvas</h3>
+                    <p>Express yourself with colors and creativity. Draw, paint, and create amazing artwork!</p>
+                </a>
             </div>
         </div>
 
-        <div class="canvas-container">
-            <canvas id="canvas" width="1100" height="600"></canvas>
-        </div>
-    </div>
+        <div class="todo-section">
+            <h2>💡 Website Improvement Ideas</h2>
+            <p style="color: #6b7280; margin-bottom: 20px;">Brainstorm ideas for new features and improvements to add to this website!</p>
 
-    <div class="footer">
-        <p>Click and drag to draw • Choose your style and create something amazing!</p>
+            <div class="todo-input-container">
+                <input
+                    type="text"
+                    id="todoInput"
+                    placeholder="What feature or improvement would you like to add?"
+                    onkeypress="if(event.key === 'Enter') addTodo()"
+                >
+                <button class="btn btn-primary" onclick="addTodo()">Add Idea</button>
+            </div>
+
+            <ul id="todoList" class="todo-list"></ul>
+
+            <div id="emptyState" class="empty-state">
+                <p>No ideas yet!</p>
+                <p style="font-size: 0.9rem;">Start brainstorming improvements for your creative hub.</p>
+            </div>
+
+            <div class="stats">
+                <span id="totalCount">Total: 0</span>
+                <span id="completedCount">Completed: 0</span>
+            </div>
+        </div>
     </div>
 
     <script>
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        const colorPicker = document.getElementById('colorPicker');
-        const brushSize = document.getElementById('brushSize');
-        const sizeDisplay = document.getElementById('sizeDisplay');
-        const saveBtn = document.getElementById('saveBtn');
-        const clearBtn = document.getElementById('clearBtn');
-        const textureButtons = document.querySelectorAll('.texture-btn');
+        let todos = [];
 
-        let isDrawing = false;
-        let currentColor = '#667eea';
-        let currentSize = 5;
-        let currentTexture = 'normal';
-        let lastX = 0;
-        let lastY = 0;
-
-        // Initialize canvas with white background
-        ctx.fillStyle = 'white';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        // Event listeners for controls
-        colorPicker.addEventListener('input', (e) => {
-            currentColor = e.target.value;
-        });
-
-        brushSize.addEventListener('input', (e) => {
-            currentSize = e.target.value;
-            sizeDisplay.textContent = `${currentSize}px`;
-        });
-
-        textureButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                textureButtons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentTexture = btn.dataset.texture;
-            });
-        });
-
-        // Drawing functions
-        function startDrawing(e) {
-            isDrawing = true;
-            const rect = canvas.getBoundingClientRect();
-            const scaleX = canvas.width / rect.width;
-            const scaleY = canvas.height / rect.height;
-
-            lastX = (e.clientX - rect.left) * scaleX;
-            lastY = (e.clientY - rect.top) * scaleY;
-        }
-
-        function draw(e) {
-            if (!isDrawing) return;
-
-            const rect = canvas.getBoundingClientRect();
-            const scaleX = canvas.width / rect.width;
-            const scaleY = canvas.height / rect.height;
-
-            const x = (e.clientX - rect.left) * scaleX;
-            const y = (e.clientY - rect.top) * scaleY;
-
-            switch(currentTexture) {
-                case 'normal':
-                    drawNormal(x, y);
-                    break;
-                case 'spray':
-                    drawSpray(x, y);
-                    break;
-                case 'calligraphy':
-                    drawCalligraphy(x, y);
-                    break;
+        // Load todos from localStorage
+        function loadTodos() {
+            const saved = localStorage.getItem('creativehub_todos');
+            if (saved) {
+                todos = JSON.parse(saved);
             }
-
-            lastX = x;
-            lastY = y;
+            renderTodos();
         }
 
-        function drawNormal(x, y) {
-            ctx.strokeStyle = currentColor;
-            ctx.lineWidth = currentSize;
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-
-            ctx.beginPath();
-            ctx.moveTo(lastX, lastY);
-            ctx.lineTo(x, y);
-            ctx.stroke();
+        // Save todos to localStorage
+        function saveTodos() {
+            localStorage.setItem('creativehub_todos', JSON.stringify(todos));
         }
 
-        function drawSpray(x, y) {
-            const density = 20;
-            const radius = currentSize * 2;
+        // Add a new todo
+        function addTodo() {
+            const input = document.getElementById('todoInput');
+            const text = input.value.trim();
 
-            for (let i = 0; i < density; i++) {
-                const offsetX = (Math.random() - 0.5) * radius;
-                const offsetY = (Math.random() - 0.5) * radius;
+            if (text) {
+                todos.push({
+                    id: Date.now(),
+                    text: text,
+                    completed: false,
+                    createdAt: new Date().toISOString()
+                });
 
-                ctx.fillStyle = currentColor;
-                ctx.fillRect(x + offsetX, y + offsetY, 1, 1);
+                input.value = '';
+                saveTodos();
+                renderTodos();
             }
         }
 
-        function drawCalligraphy(x, y) {
-            ctx.strokeStyle = currentColor;
-            ctx.lineWidth = currentSize * 2;
-            ctx.lineCap = 'square';
-            ctx.lineJoin = 'miter';
-
-            // Create angled stroke for calligraphy effect
-            const angle = Math.atan2(y - lastY, x - lastX);
-            const perpAngle = angle + Math.PI / 2;
-
-            ctx.beginPath();
-            ctx.moveTo(lastX, lastY);
-            ctx.lineTo(x, y);
-            ctx.stroke();
-
-            // Add thickness variation
-            ctx.lineWidth = currentSize * 0.3;
-            ctx.beginPath();
-            ctx.moveTo(lastX + Math.cos(perpAngle) * currentSize, lastY + Math.sin(perpAngle) * currentSize);
-            ctx.lineTo(x + Math.cos(perpAngle) * currentSize, y + Math.sin(perpAngle) * currentSize);
-            ctx.stroke();
-        }
-
-        function stopDrawing() {
-            isDrawing = false;
-        }
-
-        // Mouse events
-        canvas.addEventListener('mousedown', startDrawing);
-        canvas.addEventListener('mousemove', draw);
-        canvas.addEventListener('mouseup', stopDrawing);
-        canvas.addEventListener('mouseout', stopDrawing);
-
-        // Touch events for mobile
-        canvas.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            const touch = e.touches[0];
-            const mouseEvent = new MouseEvent('mousedown', {
-                clientX: touch.clientX,
-                clientY: touch.clientY
-            });
-            canvas.dispatchEvent(mouseEvent);
-        });
-
-        canvas.addEventListener('touchmove', (e) => {
-            e.preventDefault();
-            const touch = e.touches[0];
-            const mouseEvent = new MouseEvent('mousemove', {
-                clientX: touch.clientX,
-                clientY: touch.clientY
-            });
-            canvas.dispatchEvent(mouseEvent);
-        });
-
-        canvas.addEventListener('touchend', (e) => {
-            e.preventDefault();
-            const mouseEvent = new MouseEvent('mouseup', {});
-            canvas.dispatchEvent(mouseEvent);
-        });
-
-        // Save image
-        saveBtn.addEventListener('click', () => {
-            const link = document.createElement('a');
-            const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-            link.download = `doodle-${timestamp}.png`;
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-        });
-
-        // Clear canvas
-        clearBtn.addEventListener('click', () => {
-            if (confirm('Are you sure you want to clear the canvas? This cannot be undone.')) {
-                ctx.fillStyle = 'white';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // Toggle todo completion
+        function toggleTodo(id) {
+            const todo = todos.find(t => t.id === id);
+            if (todo) {
+                todo.completed = !todo.completed;
+                saveTodos();
+                renderTodos();
             }
-        });
+        }
 
-        // Responsive canvas sizing
-        function resizeCanvas() {
-            const container = document.querySelector('.canvas-container');
-            const maxWidth = container.clientWidth - 40;
-            const maxHeight = window.innerHeight - 400;
+        // Delete a todo
+        function deleteTodo(id) {
+            todos = todos.filter(t => t.id !== id);
+            saveTodos();
+            renderTodos();
+        }
 
-            if (maxWidth < 1100 || maxHeight < 600) {
-                const scale = Math.min(maxWidth / 1100, maxHeight / 600);
-                canvas.style.width = (1100 * scale) + 'px';
-                canvas.style.height = (600 * scale) + 'px';
+        // Render todos
+        function renderTodos() {
+            const todoList = document.getElementById('todoList');
+            const emptyState = document.getElementById('emptyState');
+            const totalCount = document.getElementById('totalCount');
+            const completedCount = document.getElementById('completedCount');
+
+            if (todos.length === 0) {
+                todoList.style.display = 'none';
+                emptyState.style.display = 'block';
             } else {
-                canvas.style.width = '1100px';
-                canvas.style.height = '600px';
+                todoList.style.display = 'block';
+                emptyState.style.display = 'none';
             }
+
+            todoList.innerHTML = todos.map(todo => `
+                <li class="todo-item ${todo.completed ? 'completed' : ''}">
+                    <input
+                        type="checkbox"
+                        class="todo-checkbox"
+                        ${todo.completed ? 'checked' : ''}
+                        onchange="toggleTodo(${todo.id})"
+                    >
+                    <span class="todo-text">${escapeHtml(todo.text)}</span>
+                    <button class="btn btn-danger" onclick="deleteTodo(${todo.id})">Delete</button>
+                </li>
+            `).join('');
+
+            const completed = todos.filter(t => t.completed).length;
+            totalCount.textContent = `Total: ${todos.length}`;
+            completedCount.textContent = `Completed: ${completed}`;
         }
 
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Initialize
+        loadTodos();
     </script>
 </body>
 </html>
