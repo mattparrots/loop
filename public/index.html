@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#1a1a2e">
+  <title>Chores</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f0f1a;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --border: #2a2a4a;
+      --text: #e8e8f0;
+      --text-muted: #8888aa;
+      --green: #2ecc71;
+      --green-bg: #0d2818;
+      --amber: #f39c12;
+      --amber-bg: #2a1a00;
+      --red: #e74c3c;
+      --red-bg: #2a0d0d;
+      --purple: #9b59b6;
+      --purple-bg: #1a0d2a;
+      --accent: #6c63ff;
+      --radius: 16px;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Header ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--bg);
+      padding: 20px 20px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+    header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    #add-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: none;
+      color: #fff;
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.15s, opacity 0.15s;
+    }
+    #add-btn:active { transform: scale(0.92); opacity: 0.85; }
+
+    /* ── Chore list ── */
+    #chore-list {
+      padding: 16px 16px 120px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    #empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--text-muted);
+    }
+    #empty-state .icon { font-size: 48px; margin-bottom: 16px; }
+    #empty-state p { font-size: 16px; }
+
+    /* ── Chore card ── */
+    .card {
+      border-radius: var(--radius);
+      padding: 16px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      transition: border-color 0.2s;
+    }
+    .card.fresh  { background: var(--green-bg);  border-color: var(--green);  }
+    .card.stale  { background: var(--amber-bg);  border-color: var(--amber);  }
+    .card.overdue{ background: var(--red-bg);    border-color: var(--red);    }
+    .card.never  { background: var(--purple-bg); border-color: var(--purple); }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .card-name {
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      flex: 1;
+      line-height: 1.3;
+    }
+    .card-name:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+    .delete-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 18px;
+      cursor: pointer;
+      padding: 2px 4px;
+      border-radius: 6px;
+      transition: color 0.15s, background 0.15s;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .delete-btn.confirm { color: var(--red); background: var(--red-bg); }
+    .delete-btn:active { opacity: 0.7; }
+
+    .card-time {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .card.fresh   .card-time { color: var(--green);  }
+    .card.stale   .card-time { color: var(--amber);  }
+    .card.overdue .card-time { color: var(--red);    }
+    .card.never   .card-time { color: var(--purple); }
+
+    .done-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+      color: #fff;
+    }
+    .done-btn:active { transform: scale(0.98); opacity: 0.85; }
+    .card.fresh   .done-btn { background: var(--green);  }
+    .card.stale   .done-btn { background: var(--amber);  }
+    .card.overdue .done-btn { background: var(--red);    }
+    .card.never   .done-btn { background: var(--purple); }
+    .card:not(.fresh):not(.stale):not(.overdue):not(.never) .done-btn { background: var(--accent); }
+
+    /* ── Bottom sheet (shared) ── */
+    .sheet-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 100;
+      backdrop-filter: blur(2px);
+    }
+    .sheet-overlay.open { display: block; }
+    .sheet {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: var(--surface2);
+      border-radius: 24px 24px 0 0;
+      border-top: 1px solid var(--border);
+      padding: 12px 20px 40px;
+      z-index: 101;
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+    .sheet.open { transform: translateY(0); }
+    .sheet-handle {
+      width: 40px; height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      margin: 0 auto 20px;
+    }
+
+    /* ── Add sheet ── */
+    #add-sheet h2 { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
+    .field { margin-bottom: 16px; }
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .field input {
+      width: 100%;
+      padding: 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .field input:focus { border-color: var(--accent); }
+    .sheet-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .btn-primary, .btn-secondary {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:active { opacity: 0.8; }
+    .btn-secondary { background: var(--border); color: var(--text); }
+    .btn-secondary:active { opacity: 0.8; }
+
+    /* ── History sheet ── */
+    #history-sheet h2 {
+      font-size: 20px; font-weight: 700; margin-bottom: 4px;
+    }
+    #history-chore-name {
+      font-size: 20px; font-weight: 700; margin-bottom: 20px;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .stat-box {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+    }
+    .stat-val {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-top: 4px;
+    }
+
+    #history-sheet h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    /* Calendar */
+    .calendar-wrap { margin-bottom: 24px; overflow-x: auto; }
+    .calendar-months { display: flex; flex-direction: column; gap: 16px; }
+    .cal-month-label {
+      font-size: 13px; font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+    .cal-day-label {
+      font-size: 9px;
+      color: var(--text-muted);
+      text-align: center;
+      padding-bottom: 4px;
+      font-weight: 600;
+    }
+    .cal-cell {
+      aspect-ratio: 1;
+      border-radius: 5px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+    .cal-cell.done { background: var(--accent); border-color: var(--accent); }
+    .cal-cell.today { border-color: var(--text-muted); }
+    .cal-cell.future { opacity: 0.2; }
+    .cal-cell.empty { background: transparent; border-color: transparent; }
+
+    /* Recent list */
+    .history-list { display: flex; flex-direction: column; gap: 8px; }
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+    }
+    .history-item .hi-date { color: var(--text-muted); }
+    .history-item .hi-rel  { color: var(--accent); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Chores</h1>
+  <button id="add-btn" aria-label="Add chore">+</button>
+</header>
+
+<div id="chore-list"></div>
+
+<!-- Add sheet -->
+<div class="sheet-overlay" id="add-overlay"></div>
+<div class="sheet" id="add-sheet" role="dialog" aria-label="Add chore">
+  <div class="sheet-handle"></div>
+  <h2>New Chore</h2>
+  <div class="field">
+    <label for="chore-name-input">Name</label>
+    <input id="chore-name-input" type="text" placeholder="e.g. Vacuum floors" maxlength="100" autocomplete="off">
+  </div>
+  <div class="field">
+    <label for="urgency-input">Remind after (hours)</label>
+    <input id="urgency-input" type="number" placeholder="72" min="1" max="8760" value="72">
+  </div>
+  <div class="sheet-actions">
+    <button class="btn-secondary" id="add-cancel">Cancel</button>
+    <button class="btn-primary" id="add-confirm">Add</button>
+  </div>
+</div>
+
+<!-- History sheet -->
+<div class="sheet-overlay" id="history-overlay"></div>
+<div class="sheet" id="history-sheet" role="dialog" aria-label="Chore history">
+  <div class="sheet-handle"></div>
+  <div id="history-chore-name"></div>
+  <div class="stats-row" id="stats-row"></div>
+  <h3>Last 3 Months</h3>
+  <div class="calendar-wrap" id="calendar-wrap"></div>
+  <h3>Recent</h3>
+  <div class="history-list" id="history-list"></div>
+</div>
+
+<script>
+  let chores = [];
+  let deleteConfirmId = null;
+  let deleteConfirmTimer = null;
+
+  // ── Time helpers ──────────────────────────────────────────────
+
+  function formatElapsed(lastDone) {
+    if (!lastDone) return 'Never done';
+    const s = Math.floor((Date.now() - new Date(lastDone)) / 1000);
+    if (s < 60) return 'Just now';
+    if (s < 3600) return `${Math.floor(s / 60)} min ago`;
+    if (s < 86400) {
+      const h = Math.floor(s / 3600);
+      return `${h} hour${h > 1 ? 's' : ''} ago`;
+    }
+    const d = Math.floor(s / 86400);
+    if (d === 1) return 'Yesterday';
+    if (d < 30) return `${d} days ago`;
+    if (d < 365) {
+      const mo = Math.floor(d / 30);
+      return `${mo} month${mo > 1 ? 's' : ''} ago`;
+    }
+    const yr = Math.floor(d / 365);
+    return `${yr} year${yr > 1 ? 's' : ''} ago`;
+  }
+
+  function formatDate(iso) {
+    const d = new Date(iso);
+    return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  function urgencyClass(lastDone, urgencyHours) {
+    if (!lastDone) return 'never';
+    const ratio = (Date.now() - new Date(lastDone)) / (urgencyHours * 3600000);
+    if (ratio < 0.5) return 'fresh';
+    if (ratio < 1.0) return 'stale';
+    return 'overdue';
+  }
+
+  // ── Render ────────────────────────────────────────────────────
+
+  function esc(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function render() {
+    const list = document.getElementById('chore-list');
+    if (chores.length === 0) {
+      list.innerHTML = `
+        <div id="empty-state">
+          <div class="icon">🧹</div>
+          <p>No chores yet — tap + to add one</p>
+        </div>`;
+      return;
+    }
+
+    list.innerHTML = chores.map(c => {
+      const cls = urgencyClass(c.lastDone, c.urgencyHours);
+      const time = formatElapsed(c.lastDone);
+      const isConfirm = deleteConfirmId === c.id;
+      return `
+      <div class="card ${cls}" data-id="${esc(c.id)}">
+        <div class="card-top">
+          <div class="card-name" role="button" tabindex="0" data-action="history" data-id="${esc(c.id)}">${esc(c.name)}</div>
+          <button class="delete-btn${isConfirm ? ' confirm' : ''}"
+                  aria-label="${isConfirm ? 'Confirm delete' : 'Delete chore'}"
+                  data-action="delete" data-id="${esc(c.id)}">
+            ${isConfirm ? '×?' : '×'}
+          </button>
+        </div>
+        <div class="card-time">${esc(time)}</div>
+        <button class="done-btn" data-action="done" data-id="${esc(c.id)}">Done!</button>
+      </div>`;
+    }).join('');
+  }
+
+  // ── API ───────────────────────────────────────────────────────
+
+  async function fetchChores() {
+    try {
+      const res = await fetch('/api/chores', { cache: 'no-store' });
+      if (!res.ok) return;
+      const data = await res.json();
+      chores = data.chores;
+      render();
+    } catch (_) {}
+  }
+
+  async function markDone(id) {
+    const chore = chores.find(c => c.id === id);
+    if (chore) {
+      chore.lastDone = new Date().toISOString();
+      chore.history = [chore.lastDone, ...(chore.history || [])].slice(0, 365);
+    }
+    render();
+    try {
+      await fetch(`/api/chores/${encodeURIComponent(id)}/done`, { method: 'POST' });
+    } catch (_) {
+      fetchChores();
+    }
+  }
+
+  async function deleteChore(id) {
+    chores = chores.filter(c => c.id !== id);
+    render();
+    try {
+      await fetch(`/api/chores/${encodeURIComponent(id)}`, { method: 'DELETE' });
+    } catch (_) {
+      fetchChores();
+    }
+  }
+
+  async function addChore(name, urgencyHours) {
+    try {
+      const res = await fetch('/api/chores', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, urgencyHours }),
+      });
+      if (!res.ok) return;
+      await fetchChores();
+    } catch (_) {}
+  }
+
+  // ── Event delegation ──────────────────────────────────────────
+
+  document.getElementById('chore-list').addEventListener('click', e => {
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    const { action, id } = btn.dataset;
+
+    if (action === 'done') {
+      markDone(id);
+    } else if (action === 'delete') {
+      if (deleteConfirmId === id) {
+        clearTimeout(deleteConfirmTimer);
+        deleteConfirmId = null;
+        deleteChore(id);
+      } else {
+        deleteConfirmId = id;
+        render();
+        deleteConfirmTimer = setTimeout(() => {
+          deleteConfirmId = null;
+          render();
+        }, 3000);
+      }
+    } else if (action === 'history') {
+      openHistory(id);
+    }
+  });
+
+  document.getElementById('chore-list').addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      const btn = e.target.closest('[data-action="history"]');
+      if (btn) { e.preventDefault(); openHistory(btn.dataset.id); }
+    }
+  });
+
+  // ── Add sheet ─────────────────────────────────────────────────
+
+  function openAddSheet() {
+    document.getElementById('add-overlay').classList.add('open');
+    document.getElementById('add-sheet').classList.add('open');
+    setTimeout(() => document.getElementById('chore-name-input').focus(), 350);
+  }
+  function closeAddSheet() {
+    document.getElementById('add-overlay').classList.remove('open');
+    document.getElementById('add-sheet').classList.remove('open');
+  }
+
+  document.getElementById('add-btn').addEventListener('click', openAddSheet);
+  document.getElementById('add-overlay').addEventListener('click', closeAddSheet);
+  document.getElementById('add-cancel').addEventListener('click', closeAddSheet);
+
+  document.getElementById('add-confirm').addEventListener('click', async () => {
+    const name = document.getElementById('chore-name-input').value.trim();
+    const hrs = Number(document.getElementById('urgency-input').value) || 72;
+    if (!name) { document.getElementById('chore-name-input').focus(); return; }
+    closeAddSheet();
+    document.getElementById('chore-name-input').value = '';
+    document.getElementById('urgency-input').value = '72';
+    await addChore(name, hrs);
+  });
+
+  document.getElementById('chore-name-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('add-confirm').click();
+  });
+
+  // ── History sheet ─────────────────────────────────────────────
+
+  function openHistory(id) {
+    const chore = chores.find(c => c.id === id);
+    if (!chore) return;
+
+    document.getElementById('history-chore-name').textContent = chore.name;
+
+    // Stats
+    const hist = chore.history || [];
+    const total = hist.length;
+    let avgDays = '—';
+    if (hist.length >= 2) {
+      const spans = [];
+      for (let i = 0; i < hist.length - 1; i++) {
+        spans.push((new Date(hist[i]) - new Date(hist[i+1])) / 86400000);
+      }
+      avgDays = (spans.reduce((a,b) => a+b, 0) / spans.length).toFixed(1) + 'd';
+    }
+    // Weekly streak: consecutive weeks (Mon–Sun) with at least 1 completion
+    let streak = 0;
+    if (hist.length > 0) {
+      const doneSet = new Set(hist.map(ts => {
+        const d = new Date(ts);
+        return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+      }));
+      const today = new Date();
+      let weekStart = new Date(today);
+      weekStart.setDate(today.getDate() - today.getDay() + 1); // Monday
+      while (true) {
+        let found = false;
+        for (let d = 0; d < 7; d++) {
+          const dd = new Date(weekStart);
+          dd.setDate(weekStart.getDate() + d);
+          if (doneSet.has(`${dd.getFullYear()}-${dd.getMonth()}-${dd.getDate()}`)) {
+            found = true; break;
+          }
+        }
+        if (!found) break;
+        streak++;
+        weekStart.setDate(weekStart.getDate() - 7);
+        if (streak > 52) break;
+      }
+    }
+
+    document.getElementById('stats-row').innerHTML = `
+      <div class="stat-box"><div class="stat-val">${total}</div><div class="stat-label">Total</div></div>
+      <div class="stat-box"><div class="stat-val">${avgDays}</div><div class="stat-label">Avg Interval</div></div>
+      <div class="stat-box"><div class="stat-val">${streak}w</div><div class="stat-label">Streak</div></div>
+    `;
+
+    // Calendar: last 3 months
+    document.getElementById('calendar-wrap').innerHTML = buildCalendar(hist);
+
+    // Recent history (last 10)
+    const recentHtml = hist.slice(0, 10).map(ts => `
+      <div class="history-item">
+        <span class="hi-date">${formatDate(ts)}</span>
+        <span class="hi-rel">${formatElapsed(ts)}</span>
+      </div>`).join('') || '<div style="color:var(--text-muted);padding:8px 0">No completions yet</div>';
+    document.getElementById('history-list').innerHTML = recentHtml;
+
+    document.getElementById('history-overlay').classList.add('open');
+    document.getElementById('history-sheet').classList.add('open');
+  }
+
+  function closeHistorySheet() {
+    document.getElementById('history-overlay').classList.remove('open');
+    document.getElementById('history-sheet').classList.remove('open');
+  }
+
+  document.getElementById('history-overlay').addEventListener('click', closeHistorySheet);
+
+  function buildCalendar(history) {
+    const doneSet = new Set(history.map(ts => {
+      const d = new Date(ts);
+      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    }));
+
+    const today = new Date();
+    const todayKey = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+
+    // Build 3 months: current + 2 prior
+    const months = [];
+    for (let m = 2; m >= 0; m--) {
+      const d = new Date(today.getFullYear(), today.getMonth() - m, 1);
+      months.push({ year: d.getFullYear(), month: d.getMonth() });
+    }
+
+    const dayLabels = ['Mo','Tu','We','Th','Fr','Sa','Su'];
+
+    return `<div class="calendar-months">${months.map(({ year, month }) => {
+      const monthName = new Date(year, month, 1).toLocaleString(undefined, { month: 'long', year: 'numeric' });
+      const firstDay = new Date(year, month, 1);
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      // Mon=0 offset
+      const offset = (firstDay.getDay() + 6) % 7;
+      const cells = [];
+      // day headers
+      const headers = dayLabels.map(l => `<div class="cal-day-label">${l}</div>`).join('');
+      // empty leading cells
+      for (let i = 0; i < offset; i++) cells.push('<div class="cal-cell empty"></div>');
+      for (let day = 1; day <= daysInMonth; day++) {
+        const key = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+        const isToday = key === todayKey;
+        const isFuture = new Date(year, month, day) > today;
+        const isDone = doneSet.has(key);
+        const cls = [
+          'cal-cell',
+          isDone ? 'done' : '',
+          isToday ? 'today' : '',
+          isFuture ? 'future' : '',
+        ].filter(Boolean).join(' ');
+        cells.push(`<div class="${cls}" title="${key}"></div>`);
+      }
+      return `
+        <div>
+          <div class="cal-month-label">${monthName}</div>
+          <div class="cal-grid">${headers}${cells.join('')}</div>
+        </div>`;
+    }).join('')}</div>`;
+  }
+
+  // ── Init ──────────────────────────────────────────────────────
+
+  fetchChores();
+  setInterval(fetchChores, 10000);
+</script>
+</body>
+</html>
